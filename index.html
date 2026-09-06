@@ -25,6 +25,20 @@
     overflow-x:hidden;
   }
 
+  /* soft pink side glow */
+  .side-glow{
+    position:fixed;
+    top:0;
+    right:-6vw; /* nudge slightly off-screen for a soft edge */
+    width:40vw;
+    height:100vh;
+    pointer-events:none;
+    z-index:0;
+    background: radial-gradient(closest-side at 10% 50%, rgba(232,85,141,0.20), rgba(232,85,141,0.10) 25%, rgba(255,217,232,0.04) 45%, transparent 70%);
+    filter: blur(48px);
+    mix-blend-mode:screen;
+  }
+
   /* floating hearts background */
   .floaters{
     position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
@@ -214,6 +228,9 @@
 </style>
 </head>
 <body>
+
+<!-- pink glow on the side -->
+<div class="side-glow" aria-hidden="true"></div>
 
 <div class="floaters" id="floaters"></div>
 
