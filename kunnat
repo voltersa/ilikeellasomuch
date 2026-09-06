@@ -354,21 +354,26 @@
 "Ella's So perfect for my view that I can't take my eyes off her.",
   ];
 
+  // Ensure we only use the first 100 reasons, even if the array grows
+  const MAX_REASONS = 100;
+  const totalReasons = Math.min(reasons.length, MAX_REASONS);
+
   const grid = document.getElementById('grid');
   const frag = document.createDocumentFragment();
-  reasons.forEach((text, i)=>{
+  for (let i = 0; i < totalReasons; i++){
+    const text = reasons[i];
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = '<span class="badge">#' + (i+1) + '</span><p>' + text + '</p>';
     frag.appendChild(card);
-  });
+  }
   grid.appendChild(frag);
 
-  document.getElementById('countPill').textContent = reasons.length + ' reasons, no exaggeration';
+  document.getElementById('countPill').textContent = totalReasons + ' reasons, no exaggeration';
 
   const spotlight = document.getElementById('spotlight');
   document.getElementById('shuffleBtn').addEventListener('click', ()=>{
-    const i = Math.floor(Math.random()*reasons.length);
+    const i = Math.floor(Math.random()*totalReasons);
     spotlight.innerHTML = '<div class="box">#' + (i+1) + ' &mdash; ' + reasons[i] + '</div>';
     const target = grid.children[i];
     target.scrollIntoView({behavior:'smooth', block:'center'});
@@ -379,4 +384,3 @@
 
 </body>
 </html>
-
