@@ -229,7 +229,7 @@
   <button id="shuffleBtn" aria-label="Show me a random reason">Surprise me &#127881;</button>
 </div>
 
-<div id="spotlight"></div>
+<div id="spotlight" aria-live="polite"></div>
 
 <div class="grid" id="grid"></div>
 
@@ -258,7 +258,7 @@
 "Ella says exactly what Ella means, kindly but honestly.",
 "The way Ella gets excited about things Ella's curious about kwento!.",
 "Ella's MABAHO.",
-"Her SMELLLLLLLSSSSS LIKE FLOWER SA GARDEN AND ADDICTICTINGGGGGGGGGGAJDIWJAIDJA.",
+"Her SMELLLLLLLSSSS LIKE FLOWER SA GARDEN AND ADDICTICTINGGGGGGGGGGAJDIWJAIDJA.",
 "Ella makes Makes me smile whenever we talk.",
 "Ella notices when someone's having a hard day before they say it makes me kilig .",
 "Her playlists are FULL OF INDIE girl rock pwede na .",
@@ -354,26 +354,55 @@
 "Ella's So perfect for my view that I can't take my eyes off her.",
   ];
 
+  // Ensure we only use the first 100 reasons, even if the array grows
+  const MAX_REASONS = 100;
+  const totalReasons = Math.min(reasons.length, MAX_REASONS);
+
+  // populate grid safely (avoid innerHTML)
   const grid = document.getElementById('grid');
   const frag = document.createDocumentFragment();
-  reasons.forEach((text, i)=>{
+  for (let i = 0; i < totalReasons; i++){
+    const text = reasons[i];
+
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = '<span class="badge">#' + (i+1) + '</span><p>' + text + '</p>';
+
+    const badge = document.createElement('span');
+    badge.className = 'badge';
+    badge.textContent = '#' + (i+1);
+
+    const p = document.createElement('p');
+    p.textContent = text;
+
+    card.appendChild(badge);
+    card.appendChild(p);
     frag.appendChild(card);
-  });
+  }
   grid.appendChild(frag);
 
-  document.getElementById('countPill').textContent = reasons.length + ' reasons, no exaggeration';
+  document.getElementById('countPill').textContent = totalReasons + ' reasons, no exaggeration';
 
   const spotlight = document.getElementById('spotlight');
+
+  // shuffle button: create a safe .box element and guard target usage
   document.getElementById('shuffleBtn').addEventListener('click', ()=>{
-    const i = Math.floor(Math.random()*reasons.length);
-    spotlight.innerHTML = '<div class="box">#' + (i+1) + ' &mdash; ' + reasons[i] + '</div>';
+    const i = Math.floor(Math.random()*totalReasons);
+
+    const box = document.createElement('div');
+    box.className = 'box';
+    box.textContent = '#' + (i+1) + ' — ' + reasons[i];
+
+    // replace spotlight content in a safe way
+    spotlight.innerHTML = '';
+    spotlight.appendChild(box);
+
     const target = grid.children[i];
-    target.scrollIntoView({behavior:'smooth', block:'center'});
-    target.style.boxShadow = '0 0 0 3px var(--gold), 0 10px 22px rgba(232,85,141,0.3)';
-    setTimeout(()=>{ target.style.boxShadow = ''; }, 1600);
+    if (target){
+      target.scrollIntoView({behavior:'smooth', block:'center'});
+      const oldShadow = target.style.boxShadow;
+      target.style.boxShadow = '0 0 0 3px var(--gold), 0 10px 22px rgba(232,85,141,0.3)';
+      setTimeout(()=>{ target.style.boxShadow = oldShadow || ''; }, 1600);
+    }
   });
 </script>
 
