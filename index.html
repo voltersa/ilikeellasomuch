@@ -3,104 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>100 Reasons I Like Ella</title>
+  <title>100 Reasons I Love Ella</title>
 <style>
   :root{
-    --cream:#FFF7FA;
+    --bg-dark: #000007;
+    --bg-deep: #05010a;
     --pink-soft:#FFD9E8;
     --blush:#FFB8D9;
     --rose:#E8558D;
     --berry:#C23B72;
     --gold:#F6C453;
-    --ink:#5A3348;
-    --card:#FFFFFF;
+    --fg:#FFEAF6; /* light foreground */
+    --card: rgba(255,255,255,0.05);
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--cream);
-    color:var(--ink);
+    background: linear-gradient(180deg,var(--bg-dark), var(--bg-deep));
+    color:var(--fg);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-x:hidden;
+    min-height:100vh;
   }
 
-  /* soft pink side glow */
+  /* canvas stars (decorative) */
+  #stars{
+    position:fixed; inset:0; z-index:0; pointer-events:none; display:block;
+  }
+
+  /* strong pink side glow (visible on dark bg) */
   .side-glow{
     position:fixed;
     top:0;
-    right:-6vw; /* nudge slightly off-screen for a soft edge */
-    width:40vw;
+    right:-8vw;
+    width:48vw;
     height:100vh;
     pointer-events:none;
     z-index:0;
-    background: radial-gradient(closest-side at 10% 50%, rgba(232,85,141,0.20), rgba(232,85,141,0.10) 25%, rgba(255,217,232,0.04) 45%, transparent 70%);
-    filter: blur(48px);
+    background: radial-gradient(closest-side at 20% 50%, rgba(232,85,141,0.30), rgba(232,85,141,0.18) 28%, rgba(255,217,232,0.06) 55%, transparent 75%);
+    filter: blur(80px);
     mix-blend-mode:screen;
-  }
-
-  /* floating hearts background */
-  .floaters{
-    position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
-  }
-  .floaters span{
-    position:absolute; bottom:-10%;
-    font-size:22px; color:var(--blush); opacity:.55;
-    animation: rise linear infinite;
-  }
-  @keyframes rise{
-    0%{ transform:translateY(0) rotate(0deg); opacity:0; }
-    10%{ opacity:.55; }
-    100%{ transform:translateY(-120vh) rotate(25deg); opacity:0; }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .floaters{ display:none; }
-    *{ animation-duration:0.01ms !important; }
   }
 
   /* HERO */
   .hero{
-    position:relative; z-index:1;
+    position:relative; z-index:2;
     padding:6.5rem 1.5rem 4rem;
     text-align:center;
   }
   .hero .eyebrow{
     font-family:'Segoe Print', 'Bradley Hand', cursive;
     font-size:1.6rem;
-    color:var(--berry);
+    color:var(--pink-soft);
     display:block;
     margin-bottom:.25rem;
     transform:rotate(-2deg);
   }
   .hero h1{
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight:700;
+    font-weight:800;
     font-size:clamp(2.6rem, 7vw, 5rem);
     margin:0;
     line-height:1.05;
-    color:var(--rose);
-    text-shadow: 3px 3px 0 var(--pink-soft);
+    color:var(--fg);
+    text-shadow: 0 8px 24px rgba(232,85,141,0.18);
   }
   .hero h1 .num{
-    color:var(--berry);
-    -webkit-text-stroke: 1px var(--berry);
+    color:var(--pink-soft);
+    -webkit-text-stroke: 1px rgba(200,50,100,0.25);
   }
   .hero p.sub{
-    max-width:520px;
+    max-width:640px;
     margin:1.1rem auto 0;
-    font-size:1.15rem;
-    color:#8a5a72;
+    font-size:1.05rem;
+    color:rgba(255,234,246,0.9);
   }
   .heart-divider{
     margin:2rem auto 0;
     font-size:1.4rem;
-    color:var(--blush);
+    color:var(--pink-soft);
     letter-spacing:.6rem;
   }
 
   /* COUNTER / SHUFFLE BAR */
   .toolbar{
-    position:relative; z-index:1;
+    position:relative; z-index:2;
     max-width:640px;
     margin:0 auto 2.5rem;
     padding:0 1.5rem;
@@ -111,18 +99,18 @@
     flex-wrap:wrap;
   }
   .pill{
-    background:var(--card);
-    border:2px solid var(--pink-soft);
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,200,220,0.06);
     border-radius:999px;
     padding:.6rem 1.1rem;
     font-weight:600;
     font-size:.95rem;
-    color:var(--berry);
-    box-shadow: 0 3px 0 var(--pink-soft);
+    color:var(--pink-soft);
+    box-shadow: 0 3px 0 rgba(232,85,141,0.06);
   }
   #shuffleBtn{
     cursor:pointer;
-    background:var(--rose);
+    background:linear-gradient(180deg,var(--rose), #d64a78);
     color:white;
     border:none;
     border-radius:999px;
@@ -130,12 +118,12 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight:700;
     font-size:.95rem;
-    box-shadow:0 3px 0 var(--berry);
-    transition: transform .12s ease;
+    box-shadow:0 6px 26px rgba(232,85,141,0.18);
+    transition: transform .12s ease, box-shadow .12s ease;
   }
-  #shuffleBtn:hover{ transform: translateY(-2px); }
-  #shuffleBtn:active{ transform: translateY(1px); box-shadow:0 1px 0 var(--berry); }
-  #shuffleBtn:focus-visible, .pill:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+  #shuffleBtn:hover{ transform: translateY(-2px); box-shadow:0 10px 36px rgba(232,85,141,0.22); }
+  #shuffleBtn:active{ transform: translateY(1px); box-shadow:0 4px 12px rgba(232,85,141,0.14); }
+  #shuffleBtn:focus-visible, .pill:focus-visible{ outline:3px solid rgba(246,196,83,0.14); outline-offset:2px; }
 
   /* SPOTLIGHT (shuffle result) */
   #spotlight{
@@ -144,23 +132,24 @@
     padding:0 1.5rem;
     text-align:center;
     min-height:1.5rem;
+    z-index:2;
   }
   #spotlight .box{
     display:inline-block;
-    background:var(--card);
-    border:2px dashed var(--rose);
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border:1px dashed rgba(232,85,141,0.14);
     border-radius:20px;
     padding:1.1rem 1.6rem;
     font-family:'Segoe Print', 'Bradley Hand', cursive;
-    font-size:1.5rem;
-    color:var(--berry);
+    font-size:1.35rem;
+    color:var(--pink-soft);
     transform:rotate(-1deg);
-    box-shadow:0 6px 0 var(--pink-soft);
+    box-shadow:0 6px 0 rgba(232,85,141,0.06);
   }
 
   /* GRID */
   .grid{
-    position:relative; z-index:1;
+    position:relative; z-index:2;
     max-width:1100px;
     margin:0 auto;
     padding:0 1.5rem 5rem;
@@ -172,22 +161,23 @@
     background:var(--card);
     border-radius:16px;
     padding:1.1rem 1.1rem 1.2rem;
-    box-shadow:0 4px 14px rgba(232,85,141,0.12);
-    border:1px solid var(--pink-soft);
+    box-shadow:0 4px 22px rgba(232,85,141,0.06);
+    border:1px solid rgba(255,200,220,0.04);
     position:relative;
     transition: transform .15s ease, box-shadow .15s ease;
+    color:rgba(255,238,246,0.95);
   }
   .card:nth-child(3n+1){ transform:rotate(-1.1deg); }
   .card:nth-child(3n+2){ transform:rotate(0.8deg); }
   .card:nth-child(3n){ transform:rotate(-0.4deg); }
   .card:hover{
-    transform: translateY(-4px) rotate(0deg) scale(1.02);
-    box-shadow:0 10px 22px rgba(232,85,141,0.22);
-    z-index:2;
+    transform: translateY(-6px) rotate(0deg) scale(1.02);
+    box-shadow:0 12px 40px rgba(232,85,141,0.14);
+    z-index:3;
   }
   .card .badge{
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight:600;
+    font-weight:700;
     font-size:.8rem;
     color:white;
     background:var(--rose);
@@ -200,45 +190,35 @@
     margin:0;
     font-size:1rem;
     line-height:1.4;
-    color:var(--ink);
+    color:rgba(255,235,244,0.95);
   }
-
-  /* EDIT NOTE */
-  .note{
-    max-width:640px;
-    margin:0 auto 3rem;
-    padding:1.2rem 1.5rem;
-    background:#fff;
-    border-left:5px solid var(--gold);
-    border-radius:10px;
-    font-size:.95rem;
-    color:#7a5063;
-    position:relative; z-index:1;
-  }
-  .note strong{ color:var(--berry); }
 
   footer{
-    position:relative; z-index:1;
+    position:relative; z-index:2;
     text-align:center;
     padding:2.5rem 1.5rem 3.5rem;
     font-family:'Segoe Print', 'Bradley Hand', cursive;
-    font-size:1.4rem;
-    color:var(--berry);
+    font-size:1.2rem;
+    color:var(--pink-soft);
+  }
+
+  /* mobile: hide heavy blur and limit side glow */
+  @media (max-width:640px){
+    .side-glow{ display:none; }
   }
 </style>
 </head>
 <body>
 
-<!-- pink glow on the side -->
+<!-- canvas for stars and soft pink side glow -->
+<canvas id="stars" aria-hidden="true"></canvas>
 <div class="side-glow" aria-hidden="true"></div>
-
-<div class="floaters" id="floaters"></div>
 
 <section class="hero">
   <span class="eyebrow">a little internet corner just for her</span>
-  <h1>100 Reasons I Like <span class="num">Ella</span></h1>
+  <h1>100 Reasons I <span class="num">Love Ella</span></h1>
   <p class="sub">I started counting once, and then I couldn't stop. So here are all 100, give or take a few I'm probably forgetting.</p>
-  <div class="heart-divider">&#10084;&#65039; &#183; &#10084;&#65039; &#183; &#10084;&#65039;</div>
+  <div class="heart-divider">&#9733; &#183; &#9733; &#183; &#9733;</div>
 </section>
 
 <div class="toolbar">
@@ -254,20 +234,58 @@
 <footer>made with a genuinely ridiculous amount of Tae</footer>
 
 <script>
-  // ---- floating background hearts ----
-  const floaters = document.getElementById('floaters');
-  const heartChars = ['\u2764\ufe0f','\ud83d\udc95','\ud83d\udc96','\u2661'];
-  for(let i=0;i<16;i++){
-    const s = document.createElement('span');
-    s.textContent = heartChars[i % heartChars.length];
-    s.style.left = Math.random()*100 + '%';
-    s.style.fontSize = (14 + Math.random()*20) + 'px';
-    s.style.animationDuration = (10 + Math.random()*14) + 's';
-    s.style.animationDelay = (Math.random()*14) + 's';
-    floaters.appendChild(s);
+// ---- stars canvas: lightweight twinkling starfield ----
+(function(){
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = innerWidth;
+  let h = canvas.height = innerHeight;
+  const num = Math.floor((w*h)/6000); // density
+  const stars = [];
+  for(let i=0;i<num;i++){
+    stars.push({
+      x: Math.random()*w,
+      y: Math.random()*h,
+      r: Math.random()*1.6 + 0.2,
+      a: Math.random()*0.8 + 0.2,
+      drift: (Math.random()*0.6-0.3)/200,
+      twinkle: Math.random()*0.02 + 0.003,
+      phase: Math.random()*Math.PI*2
+    });
   }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    // faint nebulaes: subtle radial gradients
+    const g = ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0, 'rgba(8,4,10,0.08)');
+    g.addColorStop(1, 'rgba(8,4,10,0.02)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,w,h);
 
-  // ---- reasons ----
+    for(const s of stars){
+      s.phase += s.twinkle;
+      const alpha = s.a * (0.6 + 0.4*Math.sin(s.phase));
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(255,241,250,'+alpha+')';
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+  addEventListener('resize', ()=>{
+    w = canvas.width = innerWidth;
+    h = canvas.height = innerHeight;
+    // repopulate a bit for new size
+    const desired = Math.floor((w*h)/6000);
+    while(stars.length < desired){
+      stars.push({ x: Math.random()*w, y: Math.random()*h, r: Math.random()*1.6 + 0.2, a: Math.random()*0.8 + 0.2, drift: (Math.random()*0.6-0.3)/200, twinkle: Math.random()*0.02 + 0.003, phase: Math.random()*Math.PI*2 });
+    }
+    while(stars.length > desired) stars.pop();
+  });
+})();
+
+  // ---- reasons (unchanged strings) ----
   const reasons = [
 "The way her whole face changes when Ella really laughs.",
 "Ella remembers tiny details from conversations weeks later or nah hehe.",
@@ -417,7 +435,7 @@
     if (target){
       target.scrollIntoView({behavior:'smooth', block:'center'});
       const oldShadow = target.style.boxShadow;
-      target.style.boxShadow = '0 0 0 3px var(--gold), 0 10px 22px rgba(232,85,141,0.3)';
+      target.style.boxShadow = '0 0 0 3px rgba(246,196,83,0.06), 0 10px 40px rgba(232,85,141,0.3)';
       setTimeout(()=>{ target.style.boxShadow = oldShadow || ''; }, 1600);
     }
   });
